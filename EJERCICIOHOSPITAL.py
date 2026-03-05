@@ -1,46 +1,85 @@
-# Escribi la clase personal salud como la clase padre 
-class PersonalSalud:
-    def __init__(self, nombre, cedula, genero, servicio):
-        self.nombre = nombre.upper()
-        self.cedula = cedula
-        self.genero = genero.upper()
-        self.servicio = servicio.upper()
+# CLASE HOSPITAL
 
-    def __str__(self):
-        return f"{self.nombre} | Cédula: {self.cedula}"
-    
-# medico, enfermera y paciente heredan de personal salud       
-
-class Medico(PersonalSalud):
-    def __init__(self, nombre, cedula, genero, servicio, turno, especialidad):
-        super().__init__(nombre, cedula, genero, servicio)
-        self.turno = turno.upper()
-        self.especialidad = especialidad.upper()
+class Hospital:
+    def __init__(self):
+        self.medicos = []
+        self.enfermeras = []
         self.pacientes = []
 
-    def asignar_paciente(self, paciente):
+    # MÉDICOS
+    def agregar_medico(self, medico):
+        self.medicos.append(medico)
+
+    def buscar_medico(self, cedula):
+        for medico in self.medicos:
+            if medico.cedula == cedula:
+                return medico
+        return None
+
+    # ENFERMERAS
+    def agregar_enfermera(self, enfermera):
+        self.enfermeras.append(enfermera)
+
+    # PACIENTES
+    def agregar_paciente(self, paciente):
+        for p in self.pacientes:
+            if p.cedula == paciente.cedula:
+                return False
         self.pacientes.append(paciente)
-        paciente.medico_asignado = self
+        return True
 
-    def __str__(self):
-        return f"MÉDICO: {super().__str__()} | Especialidad: {self.especialidad}"
-    
-class Enfermera(PersonalSalud):
-    def __init__(self, nombre, cedula, genero, servicio, turno, rango):
-        super().__init__(nombre, cedula, genero, servicio)
-        self.turno = turno.upper()
-        self.rango = rango.upper()
+    def buscar_paciente_por_cedula(self, cedula):
+        for p in self.pacientes:
+            if p.cedula == cedula:
+                return p
+        return None
 
-    def __str__(self):
-        return f"ENFERMERA: {super().__str__()} | Rango: {self.rango}"
+    def buscar_paciente_por_nombre(self, nombre):
+        nombre = nombre.upper()
+        resultados = []
+        for p in self.pacientes:
+            if p.nombre.startswith(nombre):
+                resultados.append(p)
+        return resultados
 
-class Paciente(PersonalSalud):
-    def __init__(self, nombre, cedula, genero, servicio):
-        super().__init__(nombre, cedula, genero, servicio)
-        self.medico_asignado = None
+    def total_pacientes(self):
+        return len(self.pacientes)
 
-    def __str__(self):
-        if self.medico_asignado:
-            return f"PACIENTE: {super().__str__()} | Médico: {self.medico_asignado.nombre}"
-        else:
-            return f"PACIENTE: {super().__str__()} | Sin médico asignado"
+    def mostrar_todo(self):
+        print("\n--- MÉDICOS ---")
+        for m in self.medicos:
+            print(m)
+
+        print("\n--- ENFERMERAS ---")
+        for e in self.enfermeras:
+            print(e)
+
+        print("\n--- PACIENTES ---")
+        for p in self.pacientes:
+            print(p)
+
+# MAIN 
+
+def main():
+    hospital = Hospital()
+
+    while True:
+        print("\n--- SISTEMA HOSPITALARIO ---")
+        print("1. Agregar Médico")
+        print("2. Agregar Enfermera")
+        print("3. Agregar Paciente")
+        print("4. Asignar Médico a Paciente")
+        print("5. Mostrar Todo")
+        print("6. Buscar Paciente")
+        print("7. Ver número total de pacientes")
+        print("8. Salir")
+
+        opcion = input("Seleccione opción: ")
+
+        if opcion == "1":
+            nombre = input("Nombre: ")
+            cedula = input("Cédula: ")
+            genero = input("Género: ")
+            servicio = input("Servicio: ")
+            turno = input("Turno: ")
+            especialidad = input("Especialidad: ")
