@@ -1,4 +1,4 @@
-# CLASE HOSPITAL
+# INCLUYO CLASE HOSPITAL
 
 class Hospital:
     def __init__(self):
